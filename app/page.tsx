@@ -1,13 +1,13 @@
 import CircleScroll from "@/components/CircleScroll";
 import IsometricStack from "@/components/Isometric";
 import RunningManRipple from "@/components/RunningManRipple";
-import ScrollIndicator from "@/components/supportingComponents/ScrollIndicator";
 import SmoothScrollText from "@/components/SmoothScrollText";
+import ScrollIndicator from "@/components/supportingComponents/ScrollIndicator";
 
 function page() {
   return (
-    <main className="min-h-screen bg-neutral-50">
-      <section className="relative flex h-screen flex-col items-center justify-center overflow-hidden">
+    <main className="h-screen snap-y snap-proximity overflow-y-scroll scroll-smooth bg-neutral-50">
+      <section className="relative flex h-screen snap-start flex-col items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -34,7 +34,7 @@ function page() {
           <ScrollIndicator />
         </div>
       </section>
-      <section className="border-t border-neutral-200">
+      <section className="snap-start border-t border-neutral-200">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid min-h-screen grid-cols-1 lg:grid-cols-12">
             <div className="flex flex-col justify-center py-20 lg:col-span-4 lg:pr-12">
@@ -49,13 +49,13 @@ function page() {
                 stroke responds independently to cursor proximity.
               </p>
               <div className="flex gap-3">
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   SVG
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Hover
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Interactive
                 </span>
               </div>
@@ -66,7 +66,7 @@ function page() {
           </div>
         </div>
       </section>
-      <section className="border-t border-neutral-200 bg-white">
+      <section className="snap-start border-t border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid min-h-screen grid-cols-1 lg:grid-cols-12">
             <div className="order-2 flex items-center justify-center border-neutral-200 lg:order-1 lg:col-span-8 lg:border-r">
@@ -84,13 +84,13 @@ function page() {
                 highlights individually with depth perception.
               </p>
               <div className="flex gap-3">
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   3D
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Layers
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Spring
                 </span>
               </div>
@@ -98,7 +98,7 @@ function page() {
           </div>
         </div>
       </section>
-      <section className="border-t border-neutral-200">
+      <section className="snap-start border-t border-neutral-200">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid min-h-screen grid-cols-1 lg:grid-cols-12">
             <div className="flex flex-col justify-center py-20 lg:col-span-4 lg:pr-12">
@@ -113,26 +113,26 @@ function page() {
                 Corner brackets animate to frame the active item.
               </p>
               <div className="flex gap-3">
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Scroll
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Blur
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Focus
                 </span>
               </div>
             </div>
             <div className="flex items-center justify-center border-neutral-200 lg:col-span-8 lg:border-l">
               <div className="h-[400px] w-full">
-                <SmoothScrollText infinite={true} />
+                <SmoothScrollText infinite={false} />
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="border-t border-neutral-200 bg-white">
+      <section className="snap-start border-t border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid min-h-screen grid-cols-1 lg:grid-cols-12">
             <div className="order-2 flex items-center justify-center border-neutral-200 lg:order-1 lg:col-span-8 lg:border-r">
@@ -150,13 +150,13 @@ function page() {
                 scales and highlights while others fade.
               </p>
               <div className="flex gap-3">
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   SVG
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Orbit
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Scale
                 </span>
               </div>
@@ -180,13 +180,13 @@ function page() {
                 decomposition with smooth transitions.
               </p>
               <div className="flex gap-3">
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded shadow-inner bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
                   Slicing
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded shadow-inner bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
                   Stagger
                 </span>
-                <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
+                <span className="rounded shadow-inner bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
                   Geometric
                 </span>
               </div>

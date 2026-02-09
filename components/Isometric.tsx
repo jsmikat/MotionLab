@@ -4,90 +4,25 @@ import { useState } from "react";
 
 import { motion } from "motion/react";
 
-const HIT_AREA_POINTS = "171.12,0.5 453.11,163.28 282.85,261.56 0.86,98.78";
-
-const IsometricCard = ({
-  isHovered,
-  isFaded,
-  onMouseEnter,
-}: {
-  isHovered: boolean;
-  isFaded: boolean;
-  onMouseEnter: () => void;
-}) => {
-  const fill = isHovered ? "#dbeafe" : isFaded ? "#f4f4f5" : "#fafafa";
-  const stroke = isHovered ? "#3b82f6" : "#a1a1aa";
-  const shadowFill = isHovered ? "#93c5fd" : "#e4e4e7";
-
-  return (
-    <svg
-      width="454"
-      height="267"
-      viewBox="0 0 454 267"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="svg-color-transitions"
-      style={{ pointerEvents: "none" }}
-    >
-      <g style={{ pointerEvents: "auto" }}>
-        <rect
-          y="0.499967"
-          width="325.592"
-          height="196.588"
-          rx="15.5"
-          transform="matrix(0.866044 0.499967 -0.866044 0.499967 171.553 4.25)"
-          fill={shadowFill}
-          style={{ pointerEvents: "none" }}
-        />
-        <rect
-          y="0.499967"
-          width="325.592"
-          height="196.588"
-          rx="15.5"
-          transform="matrix(0.866044 0.499967 -0.866044 0.499967 171.553 4.25)"
-          stroke={stroke}
-          fill="none"
-          style={{ pointerEvents: "none" }}
-        />
-        <rect
-          y="0.499967"
-          width="325.592"
-          height="196.588"
-          rx="15.5"
-          transform="matrix(0.866044 0.499967 -0.866044 0.499967 171.553 0.25)"
-          fill={fill}
-          style={{ pointerEvents: "none" }}
-        />
-        <rect
-          y="0.499967"
-          width="325.592"
-          height="196.588"
-          rx="15.5"
-          transform="matrix(0.866044 0.499967 -0.866044 0.499967 171.553 0.25)"
-          stroke={stroke}
-          fill="none"
-          style={{ pointerEvents: "none" }}
-        />
-        <polygon
-          points={HIT_AREA_POINTS}
-          fill="transparent"
-          style={{ cursor: "pointer" }}
-          onMouseEnter={onMouseEnter}
-        />
-      </g>
-    </svg>
-  );
-};
+import IsometricCardFifth from "./supportingComponents/IsometricCardFifth";
+import IsometricCardFourth from "./supportingComponents/IsometricCardFourth";
+import IsometricCardSecond from "./supportingComponents/IsometricCardSecond";
+import IsometricCardThird from "./supportingComponents/IsometricCardThird";
+import IsometricCardTop from "./supportingComponents/IsometricCardTop";
 
 export default function IsometricStack() {
   const [hoveredLayer, setHoveredLayer] = useState<number | null>(null);
   const [isContainerHovered, setIsContainerHovered] = useState(false);
 
+  const stackGap = 6;
+  const focusExtra = 14;
+
   const layerData = [
-    { id: "layer1", offset: 0 },
-    { id: "layer2", offset: 34 },
-    { id: "layer3", offset: 68 },
-    { id: "layer4", offset: 102 },
+    { id: "layer1", expandedOffset: 0 },
+    { id: "layer2", expandedOffset: 34 },
+    { id: "layer3", expandedOffset: 68 },
+    { id: "layer4", expandedOffset: 102 },
+    { id: "layer5", expandedOffset: 136 },
   ];
 
   const layerCount = layerData.length;
@@ -104,8 +39,20 @@ export default function IsometricStack() {
       >
         {layerData.map((layer, index) => {
           const isHovered = hoveredLayer === index;
-          const isFaded = isContainerHovered && !isHovered;
+          const isAbove = hoveredLayer !== null && index < hoveredLayer;
+          const isBelow = hoveredLayer !== null && index > hoveredLayer;
+          const isFaded = isAbove;
           const zIndex = layerCount - index;
+          const restY = index * stackGap;
+
+          let hoverY = layer.expandedOffset;
+          if (isHovered) {
+            hoverY -= 2;
+          } else if (isAbove) {
+            hoverY -= focusExtra;
+          } else if (isBelow) {
+            hoverY += focusExtra;
+          }
 
           return (
             <motion.div
@@ -113,8 +60,8 @@ export default function IsometricStack() {
               className="pointer-events-none absolute left-0 top-0"
               initial={false}
               animate={{
-                y: isContainerHovered ? layer.offset + (isHovered ? -2 : 0) : 0,
-                opacity: isFaded ? 0.6 : 1,
+                y: isContainerHovered ? hoverY : restY,
+                opacity: isAbove ? 0.25 : 1,
               }}
               transition={{
                 type: "spring",
@@ -123,11 +70,37 @@ export default function IsometricStack() {
               }}
               style={{ zIndex }}
             >
-              <IsometricCard
-                isHovered={isHovered}
-                isFaded={isFaded}
-                onMouseEnter={() => setHoveredLayer(index)}
-              />
+              {index === 0 ? (
+                <IsometricCardTop
+                  isHovered={isHovered}
+                  isFaded={isFaded}
+                  onMouseEnter={() => setHoveredLayer(index)}
+                />
+              ) : index === 1 ? (
+                <IsometricCardSecond
+                  isHovered={isHovered}
+                  isFaded={isFaded}
+                  onMouseEnter={() => setHoveredLayer(index)}
+                />
+              ) : index === 2 ? (
+                <IsometricCardThird
+                  isHovered={isHovered}
+                  isFaded={isFaded}
+                  onMouseEnter={() => setHoveredLayer(index)}
+                />
+              ) : index === 3 ? (
+                <IsometricCardFourth
+                  isHovered={isHovered}
+                  isFaded={isFaded}
+                  onMouseEnter={() => setHoveredLayer(index)}
+                />
+              ) : (
+                <IsometricCardFifth
+                  isHovered={isHovered}
+                  isFaded={isFaded}
+                  onMouseEnter={() => setHoveredLayer(index)}
+                />
+              )}
             </motion.div>
           );
         })}

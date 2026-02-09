@@ -28,11 +28,16 @@ export default function CircleScroll({
   inactiveColor = "#a3a3a3",
   size = 420,
 }: CircleScrollProps) {
+  const [mounted, setMounted] = React.useState(false);
   const [rotation, setRotation] = React.useState(0);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const isScrolling = React.useRef(false);
   const count = labels.length;
   const stepAngle = 360 / count;
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   React.useEffect(() => {
     const container = containerRef.current;
@@ -80,6 +85,14 @@ export default function CircleScroll({
       };
     });
   }, [labels, count, radius]);
+
+  if (!mounted) {
+    return (
+      <div className="flex size-full items-center justify-center">
+        <div className="relative" style={{ width: size, height: size }} />
+      </div>
+    );
+  }
 
   return (
     <div
