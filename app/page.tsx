@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import CircleScroll from "@/components/CircleScroll";
 import IsometricStack from "@/components/Isometric";
 import RunningManRipple from "@/components/RunningManRipple";
@@ -18,7 +20,7 @@ function page() {
 
         <div className="relative z-10 px-6 text-center">
           <p className="mb-6 text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-            Motion Studies
+            Interactive Lab
           </p>
           <h1 className="mb-8 text-[clamp(3rem,10vw,8rem)] font-light leading-[0.9] tracking-tight text-neutral-900">
             Motion
@@ -26,8 +28,8 @@ function page() {
             <span className="font-medium">Experiments</span>
           </h1>
           <p className="mx-auto max-w-md text-base text-neutral-500">
-            A curated collection of interactive animations and
-            micro-interactions built with Next.js and Framer Motion.
+            Precision-engineered interactions exploring the boundary between
+            interface and art. Each piece is a study in motion design.
           </p>
         </div>
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
@@ -42,21 +44,22 @@ function page() {
                 01
               </span>
               <h2 className="mb-4 text-3xl font-medium tracking-tight text-neutral-900">
-                Ripple Motion
+                Kinetic Figure
               </h2>
               <p className="mb-6 text-sm leading-relaxed text-neutral-500">
-                Line-by-line SVG animation with ripple hover effects. Each
-                stroke responds independently to cursor proximity.
+                A figure drawn in pure SVG paths that reacts to your cursor.
+                Hover triggers a ripple cascade — each stroke animates outward
+                with spring-driven elasticity.
               </p>
               <div className="flex gap-3">
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  SVG
+                  Proximity
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Hover
+                  Ripple
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Interactive
+                  Spring
                 </span>
               </div>
             </div>
@@ -77,21 +80,22 @@ function page() {
                 02
               </span>
               <h2 className="mb-4 text-3xl font-medium tracking-tight text-neutral-900">
-                Isometric Layers
+                Stacked Interfaces
               </h2>
               <p className="mb-6 text-sm leading-relaxed text-neutral-500">
-                Stacked isometric cards that expand on hover. Each layer
-                highlights individually with depth perception.
+                Five isometric UI layers compressed into a deck. Hover to fan
+                them apart — the focused card pulls forward while others recede
+                with reduced opacity.
               </p>
               <div className="flex gap-3">
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  3D
+                  Isometric
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Layers
+                  Depth
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Spring
+                  Focus
                 </span>
               </div>
             </div>
@@ -106,21 +110,22 @@ function page() {
                 03
               </span>
               <h2 className="mb-4 text-3xl font-medium tracking-tight text-neutral-900">
-                Scroll Text
+                Type Reel
               </h2>
               <p className="mb-6 text-sm leading-relaxed text-neutral-500">
-                Scroll-driven text carousel with blur and opacity transitions.
-                Corner brackets animate to frame the active item.
+                A vertical type carousel driven by scroll input. The active word
+                snaps into sharp focus while neighboring entries dissolve into a
+                soft depth-of-field blur.
               </p>
               <div className="flex gap-3">
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Scroll
+                  Kinetic
+                </span>
+                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
+                  Typography
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
                   Blur
-                </span>
-                <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Focus
                 </span>
               </div>
             </div>
@@ -143,21 +148,22 @@ function page() {
                 04
               </span>
               <h2 className="mb-4 text-3xl font-medium tracking-tight text-neutral-900">
-                Circle Orbit
+                Arc Selector
               </h2>
               <p className="mb-6 text-sm leading-relaxed text-neutral-500">
-                Orbital circle animation with scroll-driven focus. Active node
-                scales and highlights while others fade.
+                Labels mapped onto an invisible circular arc — scroll to rotate
+                the wheel. The active entry anchors at the apex while distant
+                items curve away and fade to silence.
               </p>
               <div className="flex gap-3">
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  SVG
+                  Arc
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Orbit
+                  Curvature
                 </span>
                 <span className="rounded bg-neutral-100 px-3 py-1 text-xs text-neutral-600 shadow-inner">
-                  Scale
+                  Decay
                 </span>
               </div>
             </div>
@@ -203,7 +209,14 @@ function page() {
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div>
               <p className="text-sm text-neutral-400">
-                Built with Next.js + Framer Motion
+                Built by{" "}
+                <Link
+                  href="https://x.com/jsmikat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @jsmikat
+                </Link>
               </p>
             </div>
             <div className="flex items-center gap-8">

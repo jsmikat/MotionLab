@@ -12,28 +12,35 @@ interface CircleScrollProps {
 }
 
 const defaultLabels = [
-  "Start",
-  "Plan",
-  "Design",
-  "Build",
-  "Test",
-  "Deploy",
-  "Launch",
-  "Scale",
+  "Auckland, New Zealand",
+  "Sydney, Australia",
+  "New York, USA",
+  "Stockholm, Sweden",
+  "Berlin, Germany",
+  "Oslo, Norway",
+  "Copenhagen, Denmark",
+  "London, UK",
+  "Madrid, Spain",
+  "Helsinki, Finland",
+  "Shanghai, China",
+  "San Francisco, USA",
+  "Tokyo, Japan",
+  "Sao Paulo, Brazil",
 ];
 
 export default function CircleScroll({
   labels = defaultLabels,
   activeColor = "#171717",
   inactiveColor = "#a3a3a3",
-  size = 420,
+  size = 700,
 }: CircleScrollProps) {
   const [mounted, setMounted] = React.useState(false);
-  const [rotation, setRotation] = React.useState(0);
+  const [activeIndex, setActiveIndex] = React.useState(0);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const isScrolling = React.useRef(false);
   const count = labels.length;
-  const stepAngle = 360 / count;
+  const itemHeight = 42;
+  const arcRadius = 450;
 
   React.useEffect(() => {
     setMounted(true);
@@ -54,37 +61,18 @@ export default function CircleScroll({
 
       isScrolling.current = true;
 
-      if (delta > 0) {
-        setRotation((prev) => prev + stepAngle);
-      } else {
-        setRotation((prev) => prev - stepAngle);
-      }
+      setActiveIndex((prev) =>
+        delta > 0 ? (prev + 1) % count : (prev - 1 + count) % count
+      );
 
       setTimeout(() => {
         isScrolling.current = false;
-      }, 400);
+      }, 350);
     };
 
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
-  }, [stepAngle]);
-
-  const radius = size / 2 - 40;
-  const currentIndex =
-    ((Math.round(rotation / stepAngle) % count) + count) % count;
-
-  const textItems = React.useMemo(() => {
-    return labels.map((label, i) => {
-      const angle = (i / count) * 360 - 90;
-      const rad = angle * (Math.PI / 180);
-      return {
-        label,
-        x: Math.cos(rad) * radius,
-        y: Math.sin(rad) * radius,
-        angle,
-      };
-    });
-  }, [labels, count, radius]);
+  }, [count]);
 
   if (!mounted) {
     return (
@@ -99,74 +87,73 @@ export default function CircleScroll({
       ref={containerRef}
       className="flex size-full items-center justify-center"
     >
-      <div className="relative" style={{ width: size, height: size }}>
-        <motion.div
-          className="absolute inset-0"
-          initial={false}
-          animate={{ rotate: -rotation }}
-          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+      <div
+        className="relative overflow-hidden"
+        style={{ width: size, height: size }}
+      >
+        {/* Blue active indicator */}
+        <div
+          className="absolute top-1/2 z-10 -translate-y-1/2"
+          style={{ left: 54 }}
         >
-          {textItems.map((item, i) => {
-            const distance = Math.min(
-              Math.abs(i - currentIndex),
-              count - Math.abs(i - currentIndex)
-            );
-            const isActive = i === currentIndex;
-
-            const handleClick = () => {
-              const diff = i - currentIndex;
-              const shortestPath =
-                Math.abs(diff) <= count / 2
-                  ? diff
-                  : diff > 0
-                    ? diff - count
-                    : diff + count;
-              setRotation((prev) => prev + shortestPath * stepAngle);
-            };
-
-            return (
-              <motion.div
-                key={i}
-                className="absolute cursor-pointer"
-                style={{
-                  left: "50%",
-                  top: "50%",
-                  x: item.x,
-                  y: item.y,
-                  translateX: "-50%",
-                  translateY: "-50%",
-                }}
-                onClick={handleClick}
-              >
-                <motion.span
-                  className="block whitespace-nowrap"
-                  style={{
-                    fontWeight: isActive ? 500 : 400,
-                    fontSize: isActive ? 20 : 24,
-                    letterSpacing: "0.02em",
-                  }}
-                  initial={false}
-                  animate={{
-                    rotate: rotation,
-                    color: isActive ? activeColor : inactiveColor,
-                    opacity: isActive ? 1 : distance === 1 ? 0.6 : 0.3,
-                    scale: isActive ? 1.1 : 1,
-                  }}
-                  transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-                >
-                  {item.label}
-                </motion.span>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
             className="size-2 rounded-full"
-            style={{ backgroundColor: activeColor }}
+            style={{ backgroundColor: "#3b82f6" }}
           />
         </div>
+
+        {labels.map((label, i) => {
+          let steps = i - activeIndex;
+          if (steps > count / 2) steps -= count;
+          if (steps < -count / 2) steps += count;
+
+          const abs = Math.abs(steps);
+          if (abs > 7) return null;
+
+          const isActive = steps === 0;
+          const y = steps * itemHeight;
+
+          const clampedY = Math.max(-arcRadius, Math.min(arcRadius, y));
+          const xArc =
+            Math.sqrt(arcRadius * arcRadius - clampedY * clampedY) - arcRadius;
+          const tilt = -Math.asin(clampedY / arcRadius) * (180 / Math.PI);
+
+          return (
+            <motion.div
+              key={i}
+              className="absolute flex cursor-pointer items-center"
+              style={{
+                top: "50%",
+                left: 70,
+                height: 40,
+                marginTop: -20,
+              }}
+              initial={false}
+              animate={{
+                x: xArc,
+                y,
+                rotate: tilt,
+                opacity: isActive ? 1 : Math.pow(0.7, abs),
+              }}
+              transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+              onClick={() => setActiveIndex(i)}
+            >
+              <span
+                className="select-none whitespace-nowrap"
+                style={{
+                  fontSize: isActive ? 28 : 22,
+                  fontWeight: isActive ? 600 : 400,
+                  color: isActive ? activeColor : inactiveColor,
+                  letterSpacing: "-0.01em",
+                  transition:
+                    "font-size 0.6s cubic-bezier(0.32,0.72,0,1), font-weight 0.6s cubic-bezier(0.32,0.72,0,1), color 0.6s cubic-bezier(0.32,0.72,0,1)",
+                }}
+              >
+                {label}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
