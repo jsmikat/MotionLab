@@ -78,7 +78,6 @@ const IsometricCardThird = ({
       viewBox="0 0 460 300"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="svg-color-transitions"
       style={{ pointerEvents: "none" }}
     >
       <g style={{ pointerEvents: "auto" }}>
