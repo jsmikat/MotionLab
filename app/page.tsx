@@ -171,39 +171,6 @@ function page() {
         </div>
       </section>
 
-      {/* <section className="border-t border-neutral-200">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid min-h-screen grid-cols-1 lg:grid-cols-12">
-            <div className="flex flex-col justify-center py-20 lg:col-span-4 lg:pr-12">
-              <span className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-neutral-400">
-                05
-              </span>
-              <h2 className="mb-4 text-3xl font-medium tracking-tight text-neutral-900">
-                Prism Effect
-              </h2>
-              <p className="mb-6 text-sm leading-relaxed text-neutral-500">
-                Card slicing animation with staggered reveal. Geometric
-                decomposition with smooth transitions.
-              </p>
-              <div className="flex gap-3">
-                <span className="rounded shadow-inner bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
-                  Slicing
-                </span>
-                <span className="rounded shadow-inner bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
-                  Stagger
-                </span>
-                <span className="rounded shadow-inner bg-neutral-100 px-3 py-1 text-xs text-neutral-600">
-                  Geometric
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-center border-neutral-200 lg:col-span-8 lg:border-l">
-              <PrismAnimation />
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       <footer className="border-t border-neutral-200 bg-neutral-900">
         <div className="mx-auto max-w-7xl px-6 py-16">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
