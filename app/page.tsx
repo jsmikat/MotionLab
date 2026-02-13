@@ -23,9 +23,9 @@ function page() {
             Interactive Lab
           </p>
           <h1 className="mb-8 text-[clamp(3rem,10vw,8rem)] font-light leading-[0.9] tracking-tight text-neutral-900">
-            Motion
+            Framer Motion
             <br />
-            <span className="font-medium">Experiments</span>
+            <span className="font-medium">Gallery</span>
           </h1>
           <p className="mx-auto max-w-md text-base text-neutral-500">
             Precision-engineered interactions exploring the boundary between
@@ -73,7 +73,7 @@ function page() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid min-h-screen grid-cols-1 lg:grid-cols-12">
             <div className="order-2 flex items-center justify-center border-neutral-200 lg:order-1 lg:col-span-8 lg:border-r">
-              <IsometricStack />
+              <IsometricStack indicators />
             </div>
             <div className="order-1 flex flex-col justify-center py-20 lg:order-2 lg:col-span-4 lg:pl-12">
               <span className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-neutral-400">

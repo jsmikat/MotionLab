@@ -16,8 +16,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A Next.js template with Tailwind CSS and TypeScript",
+  title: "Interactive Animations",
+  description:
+    "A collection of interactive animations built with React and Framer Motion.",
 };
 
 export default function RootLayout({
