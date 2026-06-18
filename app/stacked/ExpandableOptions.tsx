@@ -1,103 +1,124 @@
 "use client";
 
-import { useState } from "react";
-
-import { Bot, Brain, Globe } from "lucide-react";
+import { BarChart3, Blocks, Cloud, Layers, ShieldCheck } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
 const features = [
   {
-    title: "AI Models",
+    title: "Starters",
     description:
-      "Switch between GPT, Claude, and Gemini from a unified interface.",
-    icon: Brain,
+      "Pre-built templates and starter kits designed for rapid prototyping and instant deployment.",
+    icon: BarChart3,
   },
   {
-    title: "Global Reach",
-    description: "Collaborate in real time with teammates across the globe.",
-    icon: Globe,
+    title: "Admin",
+    description:
+      "Adaptive grid layouts with drag-and-drop widgets and real-time data visualization.",
+    icon: Layers,
   },
   {
-    title: "Smart Agent",
-    description: "Automate repetitive tasks with context-aware AI agents.",
-    icon: Bot,
+    title: "Commerce Modules",
+    description:
+      "Composable building blocks — from product catalogs and carts to checkout and subscriptions.",
+    icon: Blocks,
+  },
+  {
+    title: "Framework",
+    description:
+      "Event tracking, analytics pipelines, and actionable insights across your entire stack.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Cloud",
+    description:
+      "Biometric verification, edge deployment, and auto-scaling infrastructure built in.",
+    icon: Cloud,
   },
 ];
 
-export default function ExpandableFeatures() {
-  const [expandedIndex, setExpandedIndex] = useState<number>(0);
+export default function ExpandableFeatures({
+  hoveredLayer,
+  setHoveredLayer,
+  setIsContainerHovered,
+}: {
+  hoveredLayer: number | null;
+  setHoveredLayer: (layer: number | null) => void;
+  setIsContainerHovered: (hovered: boolean) => void;
+}) {
+  const expandedIndex = hoveredLayer;
 
   const handleSelect = (index: number) => {
-    if (index === expandedIndex) return;
-    setExpandedIndex(index);
+    setHoveredLayer(index);
+    setIsContainerHovered(true);
   };
 
   return (
-    <section className="bg-background @container overflow-hidden py-24">
-      <div className="mx-auto max-w-5x px-2 md:px-6">
-        <div className="bg-foreground/10 grid gap-px rounded-2xl p-px md:grid-cols-2">
-          <div className="bg-background relative rounded-[15px]">
-            <div className="flex h-full flex-col gap-12 px-6 pt-6 sm:p-12 sm:pb-6">
-              <div
+    <div className="h-full flex flex-col border-l border-neutral-200 w-full max-w-sm">
+      {features.map((feature, index) => {
+        const isExpanded = expandedIndex === index;
+        const isAnyExpanded = expandedIndex !== null;
+        const Icon = feature.icon;
+
+        return (
+          <motion.div
+            key={feature.title}
+            className={cn(
+              "relative cursor-pointer overflow-hidden",
+              "border-b border-neutral-100 last:border-b-0"
+            )}
+            animate={{
+              flex: isExpanded
+                ? "1 0 0%"
+                : isAnyExpanded
+                  ? "0 0 auto"
+                  : "1 0 0%",
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 280,
+              damping: 30,
+              mass: 0.8,
+            }}
+            onClick={() => handleSelect(index)}
+          >
+            {/* Header */}
+            <div className="flex items-center gap-3.5 px-6 py-4">
+              <Icon
                 className={cn(
-                  "mt-auto grid divide-y transition-all duration-300",
-                  expandedIndex === 0 && "grid-rows-[1fr_auto_auto]",
-                  expandedIndex === 1 && "grid-rows-[auto_1fr_auto]",
-                  expandedIndex === 2 && "grid-rows-[auto_auto_1fr]"
+                  "size-4 shrink-0 text-neutral-900"
+                )}
+                strokeWidth={1.5}
+              />
+              <span
+                className={cn(
+                  "text-[11px] font-medium tracking-[0.15em] uppercase text-neutral-900"
                 )}
               >
-                {features.map((feature, index) => (
-                  <div
-                    key={feature.title}
-                    data-expanded={expandedIndex === index}
-                    className="not-first:border-t not-first:border-t-card group relative grid grid-rows-[auto_1fr]"
-                  >
-                    <button
-                      onClick={() => handleSelect(index)}
-                      className="group flex w-full cursor-pointer items-center gap-3 py-4 text-left"
-                    >
-                      <feature.icon
-                        className={cn(
-                          "size-4 shrink-0 transition-colors",
-                          expandedIndex === index
-                            ? "text-foreground"
-                            : "text-muted-foreground group-hover:text-foreground"
-                        )}
-                      />
-                      <h3
-                        className={cn(
-                          "group-hover:text-foreground font-medium transition-colors",
-                          expandedIndex === index
-                            ? "text-foreground"
-                            : "text-muted-foreground"
-                        )}
-                      >
-                        {feature.title}
-                      </h3>
-                    </button>
-
-                    <div
-                      className={cn(
-                        "grid transition-[grid-template-rows] duration-300",
-                        expandedIndex === index
-                          ? "grid-rows-[1fr]"
-                          : "grid-rows-[0fr]"
-                      )}
-                    >
-                      <div className="overflow-hidden">
-                        <p className="text-muted-foreground text-balance pb-6 pl-7">
-                          {feature.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                {feature.title}
+              </span>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
+            {/* Description — slides in when expanded */}
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  className="px-6 overflow-hidden"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <p className="text-[14px] leading-[1.7] text-neutral-500 pl-[30px] pb-4">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 }

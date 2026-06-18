@@ -12,11 +12,25 @@ import IsometricCardTop from "./supportingComponents/IsometricCardTop";
 
 export default function IsometricStack({
   indicators = false,
+  hoveredLayer: externalHoveredLayer,
+  setHoveredLayer: externalSetHoveredLayer,
+  isContainerHovered: externalIsContainerHovered,
+  setIsContainerHovered: externalSetIsContainerHovered,
 }: {
   indicators?: boolean;
+  hoveredLayer?: number | null;
+  setHoveredLayer?: (layer: number | null) => void;
+  isContainerHovered?: boolean;
+  setIsContainerHovered?: (hovered: boolean) => void;
 }) {
-  const [hoveredLayer, setHoveredLayer] = useState<number | null>(null);
-  const [isContainerHovered, setIsContainerHovered] = useState(false);
+  const [internalHoveredLayer, internalSetHoveredLayer] = useState<number | null>(null);
+  const [internalIsContainerHovered, internalSetIsContainerHovered] = useState(false);
+
+  const hoveredLayer = externalHoveredLayer !== undefined ? externalHoveredLayer : internalHoveredLayer;
+  const setHoveredLayer = externalSetHoveredLayer ?? internalSetHoveredLayer;
+  const isContainerHovered = externalIsContainerHovered !== undefined ? externalIsContainerHovered : internalIsContainerHovered;
+  const setIsContainerHovered = externalSetIsContainerHovered ?? internalSetIsContainerHovered;
+
 
   const stackGap = 6;
   const focusExtra = 14;
@@ -44,10 +58,6 @@ export default function IsometricStack({
       <div
         className="relative h-[400px] w-[460px]"
         onMouseEnter={() => setIsContainerHovered(true)}
-        onMouseLeave={() => {
-          setIsContainerHovered(false);
-          setHoveredLayer(null);
-        }}
       >
         {layerData.map((layer, index) => {
           const isHovered = hoveredLayer === index;
