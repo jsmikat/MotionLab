@@ -86,14 +86,12 @@ export default function ExpandableFeatures({
             {/* Header */}
             <div className="flex items-center gap-3.5 px-6 py-4">
               <Icon
-                className={cn(
-                  "size-4 shrink-0 text-neutral-900"
-                )}
+                className={cn("size-4 shrink-0 text-neutral-900")}
                 strokeWidth={1.5}
               />
               <span
                 className={cn(
-                  "text-[11px] font-medium tracking-[0.15em] uppercase text-neutral-900"
+                  "text-[13px] font-medium tracking-[0.12em] uppercase text-neutral-900"
                 )}
               >
                 {feature.title}
@@ -110,7 +108,7 @@ export default function ExpandableFeatures({
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                 >
-                  <p className="text-[14px] leading-[1.7] text-neutral-500 pl-[30px] pb-4">
+                  <p className="text-[14px] leading-[1.6] text-neutral-500 pl-[30px] pb-4">
                     {feature.description}
                   </p>
                 </motion.div>
