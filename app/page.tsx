@@ -131,7 +131,7 @@ function page() {
             </div>
             <div className="flex items-center justify-center border-neutral-200 lg:col-span-8 lg:border-l">
               <div className="h-[400px] w-full">
-                <SmoothScrollText infinite={false} />
+                <SmoothScrollText infinite={false} align="center" />
               </div>
             </div>
           </div>

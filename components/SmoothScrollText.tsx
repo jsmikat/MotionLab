@@ -4,41 +4,47 @@ import * as React from "react";
 
 import { motion } from "motion/react";
 
-const CornerSVG = ({
-  rotation,
+const CornerBorder = ({
+  position,
   color,
+  thickness = 1,
 }: {
-  rotation: number;
+  position: "tl" | "tr" | "bl" | "br";
   color: string;
-}) => (
-  <svg
-    width="5"
-    height="5"
-    viewBox="0 0 5 5"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{
-      display: "block",
-      transform: `rotate(${rotation}deg)`,
-      width: 5,
-      height: 5,
-    }}
-  >
-    <path
-      d="M1.01172 1.00684L1.01172 5L0.0117185 5L0.0117187 1.00684L-4.40102e-08 1.00684L-2.98808e-10 0.00683572L0.0117187 0.00683572L0.0117188 -2.18045e-07L1.01172 -1.74333e-07L1.01172 0.00683576L5 0.00683594L5 1.00684L1.01172 1.00684Z"
-      fill={color}
+  thickness?: number;
+}) => {
+  const borderStyle = `${thickness}px solid ${color}`;
+  return (
+    <div
+      className={`absolute size-[6px] ${
+        position === "tl"
+          ? "left-0 top-0"
+          : position === "tr"
+            ? "right-0 top-0"
+            : position === "bl"
+              ? "bottom-0 left-0"
+              : "bottom-0 right-0"
+      }`}
+      style={{
+        borderLeft: position === "tl" || position === "bl" ? borderStyle : "none",
+        borderRight: position === "tr" || position === "br" ? borderStyle : "none",
+        borderTop: position === "tl" || position === "tr" ? borderStyle : "none",
+        borderBottom: position === "bl" || position === "br" ? borderStyle : "none",
+      }}
     />
-  </svg>
-);
+  );
+};
 
 interface SmoothScrollTextProps {
   items?: string[];
   textColor?: string;
   cornerColor?: string;
+  cornerThickness?: number;
   backgroundColor?: string;
   verticalGap?: number;
   padding?: number;
   infinite?: boolean;
+  align?: "left" | "center" | "right";
 }
 
 const defaultItems = [
@@ -54,10 +60,12 @@ export default function SmoothScrollText({
   items = defaultItems,
   textColor = "#171717",
   cornerColor = "#8b5cf6",
+  cornerThickness = 1.6,
   backgroundColor = "transparent",
   verticalGap = 16,
   padding = 40,
   infinite = true,
+  align = "left",
 }: SmoothScrollTextProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [dimensions, setDimensions] = React.useState<
@@ -111,8 +119,8 @@ export default function SmoothScrollText({
       if (el) {
         const rect = el.getBoundingClientRect();
         newDimensions[i] = {
-          width: rect.width,
-          height: rect.height,
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
         };
       }
     });
@@ -212,10 +220,24 @@ export default function SmoothScrollText({
   return (
     <div ref={containerRef} className="size-full">
       <div
-        className="relative flex size-full items-center justify-start overflow-hidden"
+        className={`relative flex size-full items-center overflow-hidden ${
+          align === "left"
+            ? "justify-start"
+            : align === "center"
+              ? "justify-center"
+              : "justify-end"
+        }`}
         style={{ backgroundColor }}
       >
-        <div className="pointer-events-none absolute inset-0 flex items-center">
+        <div
+          className={`pointer-events-none absolute inset-0 flex items-center ${
+            align === "left"
+              ? "justify-start"
+              : align === "center"
+                ? "justify-center"
+                : "justify-end"
+          }`}
+        >
           <motion.div
             layout
             initial={false}
@@ -224,24 +246,17 @@ export default function SmoothScrollText({
               height: activeDims.height + cornerPaddingY,
             }}
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute"
+            className="relative"
             style={{
               zIndex: 100,
-              left: padding - cornerPaddingX / 2,
+              ...(align === "left" && { marginLeft: padding - cornerPaddingX / 2 }),
+              ...(align === "right" && { marginRight: padding - cornerPaddingX / 2 }),
             }}
           >
-            <div className="absolute left-0 top-0">
-              <CornerSVG rotation={0} color={cornerColor} />
-            </div>
-            <div className="absolute right-0 top-0">
-              <CornerSVG rotation={90} color={cornerColor} />
-            </div>
-            <div className="absolute bottom-0 left-0">
-              <CornerSVG rotation={-90} color={cornerColor} />
-            </div>
-            <div className="absolute bottom-0 right-0">
-              <CornerSVG rotation={180} color={cornerColor} />
-            </div>
+            <CornerBorder position="tl" color={cornerColor} thickness={cornerThickness} />
+            <CornerBorder position="tr" color={cornerColor} thickness={cornerThickness} />
+            <CornerBorder position="bl" color={cornerColor} thickness={cornerThickness} />
+            <CornerBorder position="br" color={cornerColor} thickness={cornerThickness} />
           </motion.div>
         </div>
 
@@ -261,20 +276,34 @@ export default function SmoothScrollText({
                   duration: 0.6,
                   ease: [0.4, 0, 0.2, 1],
                 }}
-                className="absolute flex w-full justify-start"
+                className={`absolute flex w-full ${
+                  align === "left"
+                    ? "justify-start"
+                    : align === "center"
+                      ? "justify-center"
+                      : "justify-end"
+                }`}
                 style={{
-                  paddingLeft: padding,
+                  ...(align === "left" && { paddingLeft: padding }),
+                  ...(align === "right" && { paddingRight: padding }),
                 }}
               >
                 <span
                   ref={(el) => {
                     itemsRef.current[i] = el;
                   }}
-                  className="inline-block text-2xl font-medium tracking-tight md:text-3xl"
+                  className={`inline-block text-2xl font-medium tracking-tight md:text-3xl ${
+                    align === "center"
+                      ? "text-center"
+                      : align === "right"
+                        ? "text-right"
+                        : "text-left"
+                  }`}
                   style={{
                     maxWidth: `calc(100% - ${padding * 2}px)`,
                     color: textColor,
-                    lineHeight: 1.4,
+                    lineHeight: 1.1,
+                    paddingBottom: "0.1em", // Optical adjustment for vertical centering
                   }}
                 >
                   {text}
